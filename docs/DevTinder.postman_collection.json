@@ -1,0 +1,108 @@
+{
+  "info": {
+    "name": "DevTinder API",
+    "description": "Postman collection for the DevTinder full-stack app. Set the {{baseUrl}} variable and log in first — the auth cookie will be stored automatically by Postman's cookie jar.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:7777/api" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Signup",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/auth/signup",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Jane\",\n  \"lastName\": \"Doe\",\n  \"email\": \"jane@example.com\",\n  \"password\": \"Password123\",\n  \"age\": 27,\n  \"gender\": \"female\",\n  \"about\": \"Full-stack dev.\",\n  \"skills\": [\"React\", \"Node.js\"],\n  \"location\": \"Berlin, Germany\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"jane@example.com\",\n  \"password\": \"Password123\"\n}"
+            }
+          }
+        },
+        { "name": "Logout", "request": { "method": "POST", "url": "{{baseUrl}}/auth/logout" } },
+        { "name": "Get Me", "request": { "method": "GET", "url": "{{baseUrl}}/auth/me" } }
+      ]
+    },
+    {
+      "name": "Profile",
+      "item": [
+        { "name": "View Profile", "request": { "method": "GET", "url": "{{baseUrl}}/profile/view" } },
+        {
+          "name": "Edit Profile",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/profile/edit",
+            "body": { "mode": "raw", "raw": "{\n  \"about\": \"Updated bio\",\n  \"skills\": [\"Go\", \"Kubernetes\"]\n}" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Feed",
+      "item": [
+        { "name": "Get Feed", "request": { "method": "GET", "url": "{{baseUrl}}/feed?page=1&limit=10" } }
+      ]
+    },
+    {
+      "name": "Connection Requests",
+      "item": [
+        {
+          "name": "Send Request (interested)",
+          "request": { "method": "POST", "url": "{{baseUrl}}/request/send/interested/:userId" }
+        },
+        {
+          "name": "Send Request (ignored)",
+          "request": { "method": "POST", "url": "{{baseUrl}}/request/send/ignored/:userId" }
+        },
+        {
+          "name": "Review Request (accepted)",
+          "request": { "method": "PATCH", "url": "{{baseUrl}}/request/review/accepted/:requestId" }
+        },
+        {
+          "name": "Review Request (rejected)",
+          "request": { "method": "PATCH", "url": "{{baseUrl}}/request/review/rejected/:requestId" }
+        },
+        { "name": "Received Requests", "request": { "method": "GET", "url": "{{baseUrl}}/request/received" } },
+        { "name": "Sent Requests", "request": { "method": "GET", "url": "{{baseUrl}}/request/sent" } }
+      ]
+    },
+    {
+      "name": "Connections",
+      "item": [
+        { "name": "Get Connections", "request": { "method": "GET", "url": "{{baseUrl}}/connections" } }
+      ]
+    },
+    {
+      "name": "Messages",
+      "item": [
+        { "name": "Get Chat History", "request": { "method": "GET", "url": "{{baseUrl}}/messages/:userId" } },
+        {
+          "name": "Send Message (REST fallback)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/messages",
+            "body": { "mode": "raw", "raw": "{\n  \"receiverId\": \"<userId>\",\n  \"text\": \"Hey, saw your profile!\"\n}" }
+          }
+        }
+      ]
+    }
+  ]
+}
